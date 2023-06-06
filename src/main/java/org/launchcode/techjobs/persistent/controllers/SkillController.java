@@ -19,7 +19,7 @@ public class SkillController {
     private SkillRepository skillRepository;
 
     @RequestMapping("")
-    public String index(@ModelAttribute SkillRepository skills, Model model) {
+    public String index(Model model) {
         model.addAttribute("title", "Skills");
         model.addAttribute("skills", skillRepository.findAll());
         return "skills/index";
