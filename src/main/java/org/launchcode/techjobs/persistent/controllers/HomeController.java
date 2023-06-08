@@ -52,20 +52,17 @@ public class HomeController {
                                        Errors errors, Model model, @RequestParam int employerId, @RequestParam List<Integer> skills) {
 
         if (errors.hasErrors()) {
-            model.addAttribute("title", "Add Job");
             return "add";
-        } else {
-            Optional<Employer> result = employerRepository.findById(employerId);
-            if (result.isEmpty()) {
-                model.addAttribute("title", "Invalid Employer ID: " + employerId);
-            } else {
-                Employer employer = result.get();
-                newJob.setEmployer(employer);
+        }
+                Employer optEmployer = employerRepository.findById(employerId).orElse(new Employer());
+                newJob.setEmployer(optEmployer);
+
                 List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
                 newJob.setSkills(skillObjs);
+
                 jobRepository.save(newJob);
-            }
-        }
+
+
 
         return "redirect:";
     }
